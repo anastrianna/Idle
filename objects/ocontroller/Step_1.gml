@@ -16,7 +16,7 @@ if(inspectButton) {
 	if(point_in_rectangle(xx, yy, topLeftx, topLefty, topLeftx + (vWidth/3), topLefty + vHeight)) {
 		if(defenderUpgradeMenuBool) {
 			switch(defenderFocus.object_index) {
-				case oDefender:
+				case oGunner:
 					var buttonCount = 3;
 			
 					var menuWidth = vWidth/3;
