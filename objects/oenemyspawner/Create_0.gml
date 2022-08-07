@@ -1,3 +1,6 @@
 /// @desc
 
-active = false;
+state = "default";
+bossKill = false;
+
+wave = 0;

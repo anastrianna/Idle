@@ -1,0 +1,3 @@
+/// @desc
+
+oEnemySpawner.bossKill = true;

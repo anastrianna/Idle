@@ -1,19 +1,18 @@
 {
-  "name": "oEnemy",
   "spriteId": {
     "name": "sEnemy",
     "path": "sprites/sEnemy/sEnemy.yy",
   },
-  "spriteMaskId": null,
-  "visible": true,
   "solid": false,
-  "persistent": false,
-  "physicsObject": false,
+  "visible": true,
   "managed": true,
+  "spriteMaskId": null,
+  "persistent": false,
   "parentObjectId": {
     "name": "oCollidable",
     "path": "objects/oCollidable/oCollidable.yy",
   },
+  "physicsObject": false,
   "physicsSensor": false,
   "physicsShape": 1,
   "physicsGroup": 1,
@@ -37,6 +36,7 @@
     "path": "folders/Objects.yy",
   },
   "resourceVersion": "1.0",
+  "name": "oEnemy",
   "tags": [],
   "resourceType": "GMObject",
 }

@@ -6,4 +6,10 @@ if(room == rInit) {
 	} else {
 		room_goto(rGame);
 	}
+} else if(room == rGame) {
+	if(!instance_exists(oController)) {
+		instance_create_layer(0, 0, "Processes", oController);
+		
+		oEnemySpawner.state = "in-game";
+	}
 }

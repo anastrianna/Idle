@@ -1,7 +1,14 @@
 /// @desc
+getInput();
 
-var targetx = oWall.x;
+var targetx = x;
 var targety = oWall.y;
+
+if(instance_exists(oWall) && returnToWall) {
+	targetx = oWall.x;
+} else if(scroll != 0) {
+	targetx = x + scroll*5;
+}
 
 x = targetx;
 y = targety;
