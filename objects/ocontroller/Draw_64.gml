@@ -44,7 +44,7 @@ if(defenderUpgradeMenuBool && defenderFocus) {
 		rectangleWithOutline(startx, starty+(yBuffer*2), startx+buttonWidth, starty+(yBuffer*2)+buttonHeight, cc, c);
 		draw_text(startx+(buttonWidth/2), starty+(yBuffer*2)+(buttonHeight/4), "Speed: +%" + string(defenderFocus.atkSpeed));
 		draw_text(startx+(buttonWidth/2), starty+(yBuffer*2)+(buttonHeight*3/4), "Cost: " + string(defenderFocus.statCost[bomberStats.atkSpeed]));
-	} else if(defenderFocus.object_index == oDefender) {
+	} else if(defenderFocus.object_index == oGunner) {
 		var buttonCount = 3;
 	
 		var menuWidth = vWidth/3;
@@ -105,11 +105,11 @@ if(defenderUpgradeMenuBool && defenderFocus) {
 	draw_set_halign(fa_center);
 	draw_set_valign(fa_middle);
 	
-	if(oGame.bank < defenderCosts[defenderTypes.gunner]) { c = c_red; }
+	if(instance_exists(oDefender) && oGame.bank < defenderCosts[defenderTypes.gunner]) { c = c_red; }
 	rectangleWithOutline(startx, starty, startx+buttonWidth, starty+buttonHeight, cc, c);
 	draw_text(startx+(buttonWidth/2), starty+(buttonHeight/2), "Gunner: " + string(defenderCosts[defenderTypes.gunner]));
 	
-	if(oGame.bank < defenderCosts[defenderTypes.bomber]) { 
+	if(instance_exists(oDefender) && oGame.bank < defenderCosts[defenderTypes.bomber]) { 
 		c = c_red; 
 	} else {
 		c = c_grey;	

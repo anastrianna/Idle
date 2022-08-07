@@ -22,7 +22,7 @@ function upgradeDefender(defender, stat) {
 					break;
 			}
 			break;
-		case oDefender:
+		case oGunner:
 			switch(stat) {
 				case gunnerStats.atkPower:
 					defender.atkPower += defender.baseAtkPower;
@@ -49,10 +49,16 @@ function upgradeDefender(defender, stat) {
 function createDefender(defenderType) {
 	switch(defenderType) {
 		case defenderTypes.gunner:
-			var defender = instance_create_layer(oWall.x, 0, "Instances", oDefender);
+			if(instance_exists(oDefender)) {
+				oGame.bank -= defenderCosts[defenderTypes.gunner];
+			}
+			var defender = instance_create_layer(oWall.x, 0, "Instances", oGunner);
 			ds_list_add(oWall.defenderList, defender);
 			break;
 		case defenderTypes.bomber:
+			if(instance_exists(oDefender)) {
+				oGame.bank -= defenderCosts[defenderTypes.bomber];
+			}
 			var defender = instance_create_layer(oWall.x, 0, "Instances", oBomber);
 			ds_list_add(oWall.defenderList, defender);
 			break;
