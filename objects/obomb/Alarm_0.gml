@@ -1,3 +1,7 @@
 /// @desc Destroy after explode effect lingers
 
-instance_destroy(self);
+if(fire) {
+	state = "fire";	
+} else {
+	instance_destroy(self);	
+}

@@ -3,74 +3,99 @@ getInput();
 
 if(!instance_exists(oDefender) || defenderFocus == false) { defenderUpgradeMenuBool = false; }
 
-if(inspectButton) {
-	var xx = mouse_x;
-	var yy = mouse_y;
-	var vWidth = camera_get_view_width(view_camera[0]);
-	var vHeight = camera_get_view_height(view_camera[0]);
-	var topLeftx = camera_get_view_x(view_camera[0]);
-	var topLefty = camera_get_view_y(view_camera[0]);
-			
+var xx = mouse_x;
+var yy = mouse_y;
+
+var vWidth = camera_get_view_width(view_camera[0]);
+var vHeight = camera_get_view_height(view_camera[0]);
+var topLeftx = camera_get_view_x(view_camera[0]);
+var topLefty = camera_get_view_y(view_camera[0]);
+
+var menuWidth, menuHeight, buttonWidth, buttonHeight, buttonCount;
+
+if(inspectButton) {	
+	menuWidth = vWidth/3;
+	menuHeight = vHeight * 0.9;
+	buttonWidth = 128;
+	buttonHeight = 64;
+
 	#region Defender Menu
 	//Check if defender upgrade menu is open
-	if(point_in_rectangle(xx, yy, topLeftx, topLefty, topLeftx + (vWidth/3), topLefty + vHeight)) {
-		if(defenderUpgradeMenuBool) {
-			switch(defenderFocus.object_index) {
-				case oGunner:
-					var buttonCount = 3;
-			
-					var menuWidth = vWidth/3;
-					var buttonWidth = 128;
-					var buttonHeight = 64;
-	
-					var startx = topLeftx + menuWidth/2 - (buttonWidth/2);
-					var yBuffer = (vHeight/(buttonCount+1));
-					var starty = topLefty + yBuffer - (buttonHeight/2);
-	
-					if(point_in_rectangle(xx, yy, startx, starty, startx+buttonWidth, starty+buttonHeight) && oGame.bank >= defenderFocus.statCost[gunnerStats.atkPower]) {
-						upgradeDefender(defenderFocus, gunnerStats.atkPower);	
-					} else if(point_in_rectangle(xx, yy, startx, starty+(yBuffer), startx+buttonWidth, starty+(yBuffer)+buttonHeight) && oGame.bank >= defenderFocus.statCost[gunnerStats.atkPierce]) {
-						upgradeDefender(defenderFocus, gunnerStats.atkPierce);
-					} else if(point_in_rectangle(xx, yy, startx, starty+(yBuffer*2), startx+buttonWidth, starty+(yBuffer*2)+buttonHeight) && oGame.bank >= defenderFocus.statCost[gunnerStats.atkSpeed]) {
-						upgradeDefender(defenderFocus, gunnerStats.atkSpeed);
+	if(point_in_rectangle(xx, yy, topLeftx, topLefty, topLeftx + (vWidth/3), topLefty + menuHeight)) {	
+		var startx = topLeftx + menuWidth/2 - (buttonWidth/2);
+		if(defenderUpgradeMenuBool) {			
+			if(array_length_1d(defenderFocus.pathNames) > 0 && !defenderFocus.upgraded && defenderFocus.kills > 100) {
+				switch(defenderFocus.object_index) {
+					case oGunner:
+						buttonCount = gunnerPaths.count;
+						break;
+					case oBomber:
+						buttonCount = bomberPaths.count;
+						break;
+					case oSamurai:
+						buttonCount = samuraiPaths.count;
+						break;
+				}
+				
+				var yBuffer = (menuHeight/(buttonCount+1));
+				var starty = topLefty + yBuffer - (buttonHeight/2);
+						
+				var i = 0;
+				repeat(buttonCount) {
+					if(point_in_rectangle(xx, yy, startx, starty+(i*yBuffer), startx+buttonWidth, starty+(i*yBuffer)+buttonHeight)) {
+						empowerDefender(defenderFocus, i);	
 					}
-					break;
-				case oBomber:
-					var buttonCount = 3;
-			
-					var menuWidth = vWidth/3;
-					var buttonWidth = 128;
-					var buttonHeight = 64;
+					
+					i++;
+				}				
+			} else {
+				var buttonCount = ds_grid_height(defenderFocus.stats);
 	
-					var startx = topLeftx + menuWidth/2 - (buttonWidth/2);
-					var yBuffer = (vHeight/(buttonCount+1));
-					var starty = topLefty + yBuffer - (buttonHeight/2);
-	
-					if(point_in_rectangle(xx, yy, startx, starty, startx+buttonWidth, starty+buttonHeight) && oGame.bank >= defenderFocus.statCost[bomberStats.atkPower]) {
-						upgradeDefender(defenderFocus, bomberStats.atkPower);	
-					} else if(point_in_rectangle(xx, yy, startx, starty+(yBuffer), startx+buttonWidth, starty+(yBuffer)+buttonHeight) && oGame.bank >= defenderFocus.statCost[bomberStats.atkRadius]) {
-						upgradeDefender(defenderFocus, bomberStats.atkRadius);
-					} else if(point_in_rectangle(xx, yy, startx, starty+(yBuffer*2), startx+buttonWidth, starty+(yBuffer*2)+buttonHeight) && oGame.bank >= defenderFocus.statCost[bomberStats.atkSpeed]) {
-						upgradeDefender(defenderFocus, bomberStats.atkSpeed);
+				var yBuffer = (menuHeight/(buttonCount+1));
+				var starty = topLefty + yBuffer - (buttonHeight/2);
+						
+				var i = 0;
+				repeat(buttonCount) {
+					if(point_in_rectangle(xx, yy, startx, starty+(i*yBuffer), startx+buttonWidth, starty+(i*yBuffer)+buttonHeight) && oGame.bank >= defenderFocus.stats[# defenderStatColumns.upgradeCost, i]) {
+						upgradeDefender(defenderFocus, i);	
 					}
-					break;
+					
+					i++;
+				}
 			}
 		} else {
-			var buttonCount = array_length_1d(defenderNames);
-			
-			var menuWidth = vWidth/3;
-			var buttonWidth = 128;
-			var buttonHeight = 64;
+			if(ds_list_size(oWall.defenderList) < oWall.maxDefenders) {
+				buttonCount = array_length_1d(defenderNames);
 	
-			var startx = topLeftx + menuWidth/2 - (buttonWidth/2);
-			var yBuffer = (vHeight/(buttonCount+1));
-			var starty = topLefty + yBuffer - (buttonHeight/2);
-	
-			if(point_in_rectangle(xx, yy, startx, starty, startx+buttonWidth, starty+buttonHeight) && oGame.bank >= defenderCosts[defenderTypes.gunner]) {
-				createDefender(defenderTypes.gunner);	
-			} else if(point_in_rectangle(xx, yy, startx, starty+(yBuffer), startx+buttonWidth, starty+(yBuffer)+buttonHeight) && oGame.bank >= defenderCosts[defenderTypes.bomber]) {
-				createDefender(defenderTypes.bomber);
+				var yBuffer = (menuHeight/(buttonCount+1));
+				var starty = topLefty + yBuffer - (buttonHeight/2);
+				
+				var i = 0;
+				repeat(defenderTypes.count) {
+					if(point_in_rectangle(xx, yy, startx, starty+(i*yBuffer), startx+buttonWidth, starty+(i*yBuffer)+buttonHeight) && oGame.bank >= defenderCosts[i]) {
+						createDefender(i);
+					}
+					
+					i++;
+				}
 			}
+		}
+	} else if(point_in_rectangle(xx, yy, topLeftx + 0, topLefty + vHeight * 0.9, topLeftx + vWidth, topLefty + vHeight)){
+		startx = topLeftx;
+		starty = topLefty + vHeight * 0.9;
+		menuWidth = vWidth;
+		menuHeight = vHeight - starty;
+		buttonCount = array_length_1d(abilities);
+		var xBuffer = menuWidth/(buttonCount+1);
+		startx += xBuffer;
+
+		var i = 0;
+		repeat(buttonCount) {	
+			if(point_in_rectangle(xx, yy, startx+(i*xBuffer), starty, startx+(i*xBuffer)+buttonWidth, starty+buttonHeight) && instance_exists(oDefender) && oGame.bank >= abilityCosts[i]) {
+				castAbility(i);
+			}
+			
+			i++;
 		}
 	} else {
 	#endregion
@@ -96,7 +121,7 @@ if(inspectButton) {
 				defenderUpgradeMenuBool = defenderFocus = false;
 			}
 		}
-		
-		mouse_clear(mb_left);
 	}
+
+	mouse_clear(mb_left);
 }

@@ -1,8 +1,5 @@
 {
-  "spriteId": {
-    "name": "sProjectile",
-    "path": "sprites/sProjectile/sProjectile.yy",
-  },
+  "spriteId": null,
   "solid": false,
   "visible": true,
   "managed": true,

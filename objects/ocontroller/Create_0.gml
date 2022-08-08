@@ -5,21 +5,15 @@ defenderFocus = false;
 
 enum defenderTypes {
 	gunner,
-	bomber
+	bomber,
+	samurai,
+	count
 }
 
-enum gunnerStats {
-	atkPower,
-	atkPierce,
-	atkSpeed
-}
+abilities = ["Boost"];
 
-enum bomberStats {
-	atkPower,
-	atkRadius,
-	atkSpeed
-}
+abilityCosts = [50];
 
-defenderNames = ["Gunner", "Bomber"];
+defenderNames = ["Gunner", "Bomber", "Samurai"];
 
-defenderCosts = [10, 15];
+defenderCosts = [10, 15, 20];
