@@ -15,9 +15,8 @@ switch(state) {
 		if(alarm[0] < 0) {
 			alarm[0] = room_speed * 0.1;
 		}
-		if(instance_number(oEnemy) > 100) { 
-			wave = 1;
-			state = "active"; 
+		if(alarm[2] < 0) { 
+			alarm[2] = room_speed * 30;
 		}
 		break;
 	case "in-game":

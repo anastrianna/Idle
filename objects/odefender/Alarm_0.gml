@@ -7,8 +7,9 @@ if(instance_exists(oEnemy)) {
 	targetDirection = point_direction(x, y, target.x, target.y);
 }
 
-var proj = instance_create_layer(x, y, "Instances", oProjectile);
-proj.damage = atkPower;
-proj.pierce = atkPierce;
+var proj = instance_create_layer(x, y, "Instances", oBullet);
+proj.damage = stats[# defenderStatColumns.value, defenderStatRows.power];
+proj.pierce = stats[# defenderStatColumns.value, defenderStatRows.pierce];
+proj.owner = self;
 
 proj.direction = targetDirection;

@@ -40,6 +40,42 @@ function getInput() {
 	returnToWall = space;
 }
 
+///@func createGrid
+///@desc Create ds_grid
+///@arg ["Name1", type1, entries1...]
+///@arg ["Name2", type2, entries2...]
+function createGrid() {
+	var arg, i = 0;
+	repeat (argument_count) {
+		arg[i] = argument[i];
+		i++;
+	}
+
+	i = 0;
+	var gridSize = 0;
+	repeat (argument_count) {
+		var array = arg[i];
+		gridSize = max(gridSize, array_length_1d(array));
+		i++;
+	}
+	var dsGridId = ds_grid_create(gridSize, argument_count);
+
+	i = 0;
+	repeat (argument_count) {
+		array = arg[i];
+		var arrayLen = array_length_1d(array);
+	
+		var xx = 0;
+		repeat (arrayLen) {
+			dsGridId[# xx, i] = array[xx];
+			xx++;
+		}
+		i++;
+	}
+
+	return dsGridId;
+}
+
 ///@func doNothing()
 ///@desc Helper script
 ///@arg
